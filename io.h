@@ -1,9 +1,10 @@
 //
 // Created by nguye on 25/04/2026.
-//
+//Description: Header file for io.c.
+ //           Declares file I/O functions for loading and exporting data.
 
-#ifndef POWER_QUALITY_WAVEFORM_ANALYSER_IO_H
-#define POWER_QUALITY_WAVEFORM_ANALYSER_IO_H
+#ifndef power_quality_waveform_analyser_IO_h
+#define power_quality_waveform_analyser_IO_h
 #include "waveform.h"
 
 // Hàm đọc dữ liệu từ file CSV vào mảng struct
