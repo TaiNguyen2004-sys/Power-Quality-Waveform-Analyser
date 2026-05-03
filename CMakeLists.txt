@@ -9,4 +9,12 @@ add_executable(Power_Quality_waveform_analyser
         waveform.h
         io.c
         io.h
+
+)
+add_executable(RunUnitTests
+        testmain.c
+        waveform.c
+        io.c
+        io.h
+        waveform.h
 )
