@@ -1,32 +1,63 @@
+/*
+ * Description: The entry point of the Power Quality Waveform Analyser.
+ *              Handles command-line input, memory allocation,
+ *              CSV data loading, calls analysis functions,
+ *              and exports results to the output file.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "waveform.h"
 #include "io.h"
+#include "waveform.h"
+
+#define MAX_ROWS 1000  // Sample dataset has 1000 rows
 
 int main(int argc, char *argv[]) {
-    // Check if we have filename
-    if(argc < 2) {
-        printf("How to use: %s <filename.csv>\n", argv[0]);
+    // 1. Handle command-line argument (Project requirement)
+    // Use provided filename, otherwise use default
+    const char *filename = "power_quality_log.csv";
+    if (argc > 1) {
+        filename = argv[1];
+    }
+    printf("Using data file: %s\n", filename);
+
+    // 2. Dynamic memory allocation (Pass 2 requirement)
+    // Ask OS for memory to hold 1000 WaveformSample structs
+    WaveformSample *samples = (WaveformSample *)malloc(MAX_ROWS * sizeof(WaveformSample));
+
+    // Check if allocation worked
+    if (samples == NULL) {
+        printf("Error: Cannot allocate dynamic memory!\n");
+        return 1;  // Exit with error code
+    }
+
+    // 3. Read data from CSV file
+    printf("Reading file: %s\n", filename);
+    int count = load_csv(filename, samples, MAX_ROWS);
+
+    // If load_csv returns -1 (file error), clean up and exit
+    if (count < 0) {
+        free(samples);  // MUST free memory even if error to avoid memory leak
+        printf("Failed to load data. Exiting...\n");
         return 1;
     }
 
-    // Create space for 1000 data samples
-    int num_samples = 1000;
-    WaveformSample *sample_list = malloc(num_samples * sizeof(WaveformSample));
+    printf("Success! Loaded %d data samples.\n", count);
 
-    // Check if memory created OK
-    if(sample_list == NULL) {
-        printf("Error: Not enough memory!\n");
-        return 1;
-    }
+    // 4. Signal analysis section
+    printf("Analyzing power quality and generating report...\n");
 
-    printf("Created memory for %d samples.\n", num_samples);
+    // 5. EXPORT RESULTS TO FILE
+    // Gọi đúng tên hàm export_results và truyền mảng cấu trúc (samples) + số dòng (count) vào
+    export_results("results.txt", samples, count);
 
-    // TODO: Will write file reading code here later
+    // In thông báo nổi bật ra Terminal
+    printf("\n=================================================\n");
+    printf(" [SUCCESS] Report saved to: 'results.txt'\n");
+    printf(" Please open the file in your project folder to view.\n");
+    printf("=================================================\n\n");
 
-    // Free memory (very important!)
-    free(sample_list);
-    printf("Freed memory. Program finished.\n");
-
+    // Dọn dẹp bộ nhớ và kết thúc
+    free(samples);
     return 0;
 }
