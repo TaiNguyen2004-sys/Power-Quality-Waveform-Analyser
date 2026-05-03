@@ -1,9 +1,9 @@
-//
-// Created by nguye on 25/04/2026.
-//
 
-#ifndef POWER_QUALITY_WAVEFORM_ANALYSER_WAVEFORM_H
-#define POWER_QUALITY_WAVEFORM_ANALYSER_WAVEFORM_H
+ // Description: Header file for waveform.c.
+ //             Defines the WaveformSample struct and declares
+ //             all waveform analysis functions.
+#ifndef waveform_h
+#define waveform_h
 
 typedef struct {
     double timestamp;
@@ -16,6 +16,14 @@ typedef struct {
     double thd_percent;
 } WaveformSample;
 
+// CHỈ khai báo tên hàm, chú ý dấu chấm phẩy ; ở cuối mỗi dòng
+double compute_rms(WaveformSample* samples, int n, int phase_id);
+double compute_peak_to_peak(WaveformSample* samples, int n, int phase_id);
+double compute_dc_offset(WaveformSample* samples, int n, int phase_id);
+int count_clipped(WaveformSample* samples, int n, int phase_id);
+int check_compliance(double rms);
+void compute_frequency_range(WaveformSample* samples, int n, double* min_val, double* max_val);
+void compute_power_factor_range(WaveformSample* samples, int n, double* min_val, double* max_val);
+void compute_thd_range(WaveformSample* samples, int n, double* min_val, double* max_val);
+
 #endif
-
-
