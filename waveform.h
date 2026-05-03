@@ -16,7 +16,6 @@ typedef struct {
     double thd_percent;
 } WaveformSample;
 
-// CHỈ khai báo tên hàm, chú ý dấu chấm phẩy ; ở cuối mỗi dòng
 double compute_rms(WaveformSample* samples, int n, int phase_id);
 double compute_peak_to_peak(WaveformSample* samples, int n, int phase_id);
 double compute_dc_offset(WaveformSample* samples, int n, int phase_id);

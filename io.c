@@ -56,20 +56,16 @@ int load_csv(const char *filename, WaveformSample *samples, int max_count) {
     fclose(file);
     return count;
 }
-
-// Function to export analysis results to file (will implement later)
 // Function to save analysis results to a text file
 void export_results(const char *filename, WaveformSample *samples, int sample_count) {
-    // Step 1: Try to open the file for writing
     FILE *output_file = fopen(filename, "w");
     if (output_file == NULL) {
         printf("ERROR: Could not create file '%s'\n", filename);
         printf("Make sure you have write permission in this folder!\n");
-        return;  // Exit if file can't be opened
+        return;
     }
     char phase_names[3] = {'A', 'B', 'C'};
 
-    // Print results for each phase
     for (int phase_id = 0; phase_id < 3; phase_id++) {
         double rms = compute_rms(samples, sample_count, phase_id);
         double ptp = compute_peak_to_peak(samples, sample_count, phase_id);
@@ -101,7 +97,6 @@ void export_results(const char *filename, WaveformSample *samples, int sample_co
     // Close file and done
     fclose(output_file);
     printf("Successfully exported results to %s\n", filename);
-
 
     // Step 2: Analyze all 3 phases (A, B, C)
     for (int phase = 0; phase < 3; phase++) {

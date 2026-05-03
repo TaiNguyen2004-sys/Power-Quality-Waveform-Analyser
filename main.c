@@ -48,16 +48,16 @@ int main(int argc, char *argv[]) {
     printf("Analyzing power quality and generating report...\n");
 
     // 5. EXPORT RESULTS TO FILE
-    // Gọi đúng tên hàm export_results và truyền mảng cấu trúc (samples) + số dòng (count) vào
+
     export_results("results.txt", samples, count);
 
-    // In thông báo nổi bật ra Terminal
-    printf("\n=================================================\n");
+
+
     printf(" [SUCCESS] Report saved to: 'results.txt'\n");
     printf(" Please open the file in your project folder to view.\n");
-    printf("=================================================\n\n");
 
-    // Dọn dẹp bộ nhớ và kết thúc
+
+
     free(samples);
     return 0;
 }
